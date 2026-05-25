@@ -38,6 +38,15 @@ const addonCards: DownloadCard[] = [
     external: true,
   },
   {
+    title: "CHAY_CE Media Library",
+    label: "MEDIA",
+    image: "/images/chaymedia-logo.png",
+    description:
+      "Adds the CHAY_CE Bushido textures to ElvUI, Details, nameplates, cast bars, and other LibSharedMedia dropdowns.",
+    href: "/downloads/ChayMedia.zip",
+    button: "Download Media Library",
+  },
+  {
     title: "ElvUI Profile",
     label: "PROFILE",
     image: "/images/elvui-card.png",
@@ -158,8 +167,9 @@ export default function Home() {
 
           <h2>Simple. Clean. Expandable.</h2>
           <p>
-            Start fresh with ElvUI, Details, ChayBar, ChayImages, EXBoss, and
-            EX WindTools. Built to grow later without turning your UI into clutter.
+            Start fresh with ElvUI, Details, ChayBar, ChayImages, EXBoss, EX WindTools,
+            and the CHAY_CE Media Library. Built to grow later without turning your UI
+            into clutter.
           </p>
         </aside>
       </section>
@@ -202,6 +212,32 @@ export default function Home() {
             <DownloadCard key={card.title} card={card} />
           ))}
         </div>
+      </section>
+
+      <section className="quality-strip" aria-label="CHAY_CE Media Library install steps">
+        <article>
+          <span>01</span>
+          <h3>Install ChayMedia</h3>
+          <p>Extract ChayMedia into World of Warcraft\_retail_\Interface\AddOns.</p>
+        </article>
+
+        <article>
+          <span>02</span>
+          <h3>Check the Folder</h3>
+          <p>The final path should be Interface\AddOns\ChayMedia\ChayMedia.toc.</p>
+        </article>
+
+        <article>
+          <span>03</span>
+          <h3>Reload WoW</h3>
+          <p>Restart the game or type /reload after enabling the addon.</p>
+        </article>
+
+        <article>
+          <span>04</span>
+          <h3>Select Textures</h3>
+          <p>Choose CHAY_CE - Bushido textures in ElvUI, Details, and nameplate dropdowns.</p>
+        </article>
       </section>
 
       <section className="downloads-section imports-section">
