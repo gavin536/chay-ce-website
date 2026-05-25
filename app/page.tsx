@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "CHAY_CE | WoW UI Profiles, Addons, Stream Tools",
   description:
-    "CHAY_CE creator hub for World of Warcraft UI profiles, addons, stream tools, imports, and community links.",
+    "CHAY_CE creator hub for World of Warcraft UI profiles, addons, stream tools, imports, custom media textures, Twitch clips, and community links.",
 };
 
 type DownloadCard = {
@@ -42,7 +42,7 @@ const addonCards: DownloadCard[] = [
     label: "MEDIA",
     image: "/images/chaymedia-logo.png",
     description:
-      "Adds the CHAY_CE Bushido textures to ElvUI, Details, nameplates, cast bars, and other LibSharedMedia dropdowns.",
+      "Adds CHAY_CE Bushido textures to ElvUI, Details, nameplates, bars, and other LibSharedMedia-compatible addons.",
     href: "/downloads/ChayMedia.zip",
     button: "Download Media Library",
   },
@@ -100,9 +100,8 @@ export default function Home() {
         <nav className="main-nav" aria-label="Main navigation">
           <a href="#home">Home</a>
           <a href="#downloads">Downloads</a>
-          <a href="https://www.twitch.tv/chay_ce" target="_blank" rel="noreferrer">
-            Stream
-          </a>
+          <a href="#clips">Clips</a>
+          <a href="#stream-team">Stream Team</a>
           <a href="#support">Support</a>
           <a href="https://discord.gg/q4thpsfSvm" target="_blank" rel="noreferrer">
             Community
@@ -131,8 +130,8 @@ export default function Home() {
 
           <p className="hero-subtitle">
             Cinematic UI. Clean visuals. Maximum immersion. Premium World of Warcraft
-            UI profiles, custom visuals, stream branding, and creator tools built for
-            performance.
+            UI profiles, custom visuals, stream branding, creator tools, and community
+            systems built for performance.
           </p>
 
           <div className="hero-actions">
@@ -146,6 +145,9 @@ export default function Home() {
             </a>
             <a className="secondary-button" href="#downloads">
               Browse Downloads
+            </a>
+            <a className="secondary-button" href="#clips">
+              Watch Clips
             </a>
           </div>
         </div>
@@ -167,9 +169,9 @@ export default function Home() {
 
           <h2>Simple. Clean. Expandable.</h2>
           <p>
-            Start fresh with ElvUI, Details, ChayBar, ChayImages, EXBoss, EX WindTools,
-            and the CHAY_CE Media Library. Built to grow later without turning your UI
-            into clutter.
+            Start fresh with ElvUI, Details, ChayBar, ChayImages, ChayMedia,
+            EXBoss, and EX WindTools. Built to grow later without turning your
+            UI into clutter.
           </p>
         </aside>
       </section>
@@ -190,13 +192,13 @@ export default function Home() {
         <article>
           <span>03</span>
           <h3>Creator Focused</h3>
-          <p>Profiles, imports, tools, and visuals built around content creation.</p>
+          <p>Profiles, imports, tools, textures, and visuals built around content creation.</p>
         </article>
 
         <article>
           <span>04</span>
           <h3>Community Driven</h3>
-          <p>Connected through Twitch, Discord, and World of Warcraft.</p>
+          <p>Connected through Twitch, Discord, World of Warcraft, and stream team growth.</p>
         </article>
       </section>
 
@@ -214,32 +216,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="quality-strip" aria-label="CHAY_CE Media Library install steps">
-        <article>
-          <span>01</span>
-          <h3>Install ChayMedia</h3>
-          <p>Extract ChayMedia into World of Warcraft\_retail_\Interface\AddOns.</p>
-        </article>
-
-        <article>
-          <span>02</span>
-          <h3>Check the Folder</h3>
-          <p>The final path should be Interface\AddOns\ChayMedia\ChayMedia.toc.</p>
-        </article>
-
-        <article>
-          <span>03</span>
-          <h3>Reload WoW</h3>
-          <p>Restart the game or type /reload after enabling the addon.</p>
-        </article>
-
-        <article>
-          <span>04</span>
-          <h3>Select Textures</h3>
-          <p>Choose CHAY_CE - Bushido textures in ElvUI, Details, and nameplate dropdowns.</p>
-        </article>
-      </section>
-
       <section className="downloads-section imports-section">
         <p className="section-kicker">Imports</p>
         <h2>EX Imports.</h2>
@@ -251,6 +227,84 @@ export default function Home() {
           {importCards.map((card) => (
             <DownloadCard key={card.title} card={card} />
           ))}
+        </div>
+      </section>
+
+      <section className="support-section" aria-label="CHAY_CE media instructions">
+        <div>
+          <p className="section-kicker">How To</p>
+          <h2>Use CHAY_CE textures.</h2>
+          <p>
+            Download ChayMedia, extract it into your World of Warcraft AddOns folder,
+            reload the game, then select the CHAY_CE Bushido textures from ElvUI,
+            Details, nameplates, cast bars, or any LibSharedMedia-compatible texture
+            dropdown.
+          </p>
+        </div>
+
+        <div className="support-actions">
+          <a className="primary-button" href="/downloads/ChayMedia.zip">
+            Download ChayMedia
+          </a>
+          <span className="secondary-button" aria-disabled="true">
+            Reload WoW After Install
+          </span>
+        </div>
+      </section>
+
+      <section id="clips" className="support-section">
+        <div>
+          <p className="section-kicker">Stream Clips</p>
+          <h2>Watch the highlights.</h2>
+          <p>
+            Catch raid moments, funny wipes, stream highlights, community clips,
+            and CHAY_CE Twitch moments directly from the official clips page.
+          </p>
+        </div>
+
+        <div className="support-actions">
+          <a
+            className="primary-button"
+            href="https://www.twitch.tv/chay_ce/clips"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Watch Twitch Clips
+          </a>
+          <a
+            className="secondary-button"
+            href="https://www.twitch.tv/chay_ce"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Twitch Channel
+          </a>
+        </div>
+      </section>
+
+      <section id="stream-team" className="support-section">
+        <div>
+          <p className="section-kicker">Community</p>
+          <h2>Stream team Discord.</h2>
+          <p>
+            A separate stream team community space is planned for creators,
+            collaborators, raid content, stream networking, and CHAY_CE community
+            projects.
+          </p>
+        </div>
+
+        <div className="support-actions">
+          <span className="primary-button" aria-disabled="true">
+            Stream Team Discord Coming Soon
+          </span>
+          <a
+            className="secondary-button"
+            href="https://discord.gg/q4thpsfSvm"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Main Community Discord
+          </a>
         </div>
       </section>
 
