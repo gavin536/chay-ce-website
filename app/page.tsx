@@ -100,8 +100,6 @@ export default function Home() {
         <nav className="main-nav" aria-label="Main navigation">
           <a href="#home">Home</a>
           <a href="#downloads">Downloads</a>
-          <a href="#clips">Clips</a>
-          <a href="#stream-team">Stream Team</a>
           <a href="#support">Support</a>
           <a href="https://discord.gg/q4thpsfSvm" target="_blank" rel="noreferrer">
             Community
@@ -142,12 +140,6 @@ export default function Home() {
               rel="noreferrer"
             >
               Watch Live
-            </a>
-            <a className="secondary-button" href="#downloads">
-              Browse Downloads
-            </a>
-            <a className="secondary-button" href="#clips">
-              Watch Clips
             </a>
           </div>
         </div>
@@ -252,7 +244,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="clips" className="support-section">
+      <section className="support-section">
         <div>
           <p className="section-kicker">Stream Clips</p>
           <h2>Watch the highlights.</h2>
@@ -271,18 +263,10 @@ export default function Home() {
           >
             Watch Twitch Clips
           </a>
-          <a
-            className="secondary-button"
-            href="https://www.twitch.tv/chay_ce"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Twitch Channel
-          </a>
         </div>
       </section>
 
-      <section id="stream-team" className="support-section">
+      <section className="support-section">
         <div>
           <p className="section-kicker">Community</p>
           <h2>Stream team Discord.</h2>
