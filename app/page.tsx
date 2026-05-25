@@ -61,7 +61,7 @@ const importCards: DownloadCard[] = [
   {
     title: "EXBoss Import",
     label: "IMPORT",
-    image: "/Images/EXBoss.jpg",
+    image: "/images/EXBoss.jpg",
     description:
       "EXBoss import setup for matching the CHAY_CE UI ecosystem.",
     href: "/downloads/ExBoss.txt",
@@ -70,7 +70,7 @@ const importCards: DownloadCard[] = [
   {
     title: "EX WindTools Import",
     label: "IMPORT",
-    image: "/Images/EXBoss.jpg",
+    image: "/images/EXBoss.jpg",
     description:
       "EX WindTools import setup made to fit the CHAY_CE UI layout.",
     href: "/downloads/ExwindTools.txt",
