@@ -82,7 +82,7 @@ const importCards: DownloadCard[] = [
     image: "/images/EXBoss.jpg",
     description:
       "EX WindTools import setup made to fit the CHAY_CE UI layout.",
-    href: "/downloads/ExBossWinTools.txt",
+    href: "/downloads/exwindtools.txt",
     button: "Download Import",
   },
 ];
