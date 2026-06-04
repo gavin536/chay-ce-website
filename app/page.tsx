@@ -266,28 +266,50 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="support-section">
+      <section className="support-section stream-team-section">
         <div>
-          <p className="section-kicker">Community</p>
-          <h2>Stream team Discord.</h2>
+          <p className="section-kicker">Stream Team</p>
+          <h2>Join the stream team.</h2>
           <p>
-            A separate stream team community space is planned for creators,
-            collaborators, raid content, stream networking, and CHAY_CE community
-            projects.
+            Want to join the CHAY_CE Twitch stream team? Join the Discord and send me
+            a quick message with your stream details. I review every request there.
+          </p>
+
+          <p>
+            Message me directly on Discord: <strong>@chay_ce</strong>
+          </p>
+
+          <p className="stream-team-template-label">Copy and send this in Discord:</p>
+          <p className="stream-team-template">
+            Hey Chay, I want to join the stream team. My Twitch is: [your-link].
+            I stream: [days/times]. My main games/content: [what-you-play].
           </p>
         </div>
 
         <div className="support-actions">
-          <span className="primary-button" aria-disabled="true">
-            Stream Team Discord Coming Soon
-          </span>
+          <a
+            className="primary-button"
+            href="https://discord.gg/q4thpsfSvm"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Join Discord
+          </a>
+          <a
+            className="secondary-button"
+            href="https://discord.com/users/213862970793525259"
+            target="_blank"
+            rel="noreferrer"
+          >
+            DM @chay_ce
+          </a>
           <a
             className="secondary-button"
             href="https://discord.gg/q4thpsfSvm"
             target="_blank"
             rel="noreferrer"
           >
-            Main Community Discord
+            Community Discord
           </a>
         </div>
       </section>
