@@ -187,6 +187,35 @@ export default function Home() {
           <p>6. Download and import the EX WindTools profile.</p>
           <p>7. Install ChayMedia if using the custom textures/fonts.</p>
           <p>8. Reload UI in-game.</p>
+
+          <p className="panel-kicker">FAQ</p>
+          <p>1. Do I need ElvUI?</p>
+          <p>
+            Yes. The CHAY_CE profile is built for ElvUI and should be imported
+            after ElvUI is installed.
+          </p>
+          <p>2. Do I need Details!?</p>
+          <p>Only if you want to use the CHAY_CE Details profile.</p>
+          <p>3. Where do I put EXBoss and EX WindTools imports?</p>
+          <p>
+            Copy the import text from the download file, then paste it into the
+            matching addon import window in-game.
+          </p>
+          <p>4. Do these work on Retail and Midnight?</p>
+          <p>
+            The files are intended for current Retail and Midnight-ready UI
+            setups.
+          </p>
+          <p>5. Why does my UI look different?</p>
+          <p>
+            Missing addons, missing media files, different resolution, or
+            different UI scale can change the final look.
+          </p>
+          <p>6. Do I need ChayMedia?</p>
+          <p>
+            Use ChayMedia if you want the custom textures, fonts, and media used
+            by the CHAY_CE profiles.
+          </p>
         </div>
       </section>
 
@@ -203,13 +232,19 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="support-actions">
-          <a className="primary-button" href="/downloads/ChayMedia.zip">
-            Download ChayMedia
-          </a>
-          <span className="secondary-button" aria-disabled="true">
-            Reload WoW After Install
-          </span>
+        <div>
+          <div className="card-image-wrap">
+            <img src="/images/chaymedia-logo.png" alt="CHAY_CE Media Library" />
+          </div>
+
+          <div className="support-actions">
+            <a className="primary-button" href="/downloads/ChayMedia.zip">
+              Download ChayMedia
+            </a>
+            <span className="secondary-button" aria-disabled="true">
+              Reload WoW After Install
+            </span>
+          </div>
         </div>
       </section>
 
