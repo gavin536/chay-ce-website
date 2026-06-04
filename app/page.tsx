@@ -177,34 +177,6 @@ export default function Home() {
         </aside>
       </section>
 
-      <section id="downloads" className="downloads-section downloads-section-primary">
-        <p className="section-kicker">Downloads</p>
-        <h2>Pick Your Download.</h2>
-        <p className="section-intro">
-          Each item below is its own separate download or external addon page.
-        </p>
-
-        <div className="download-grid">
-          {addonCards.map((card) => (
-            <DownloadCard key={card.title} card={card} />
-          ))}
-        </div>
-      </section>
-
-      <section className="downloads-section imports-section">
-        <p className="section-kicker">Imports</p>
-        <h2>EX Imports.</h2>
-        <p className="section-intro">
-          Separate import files for EXBoss and EX WindTools.
-        </p>
-
-        <div className="download-grid import-grid">
-          {importCards.map((card) => (
-            <DownloadCard key={card.title} card={card} />
-          ))}
-        </div>
-      </section>
-
       <section className="support-section" aria-label="CHAY_CE UI setup guide">
         <div>
           <p className="section-kicker">Setup Guide</p>
@@ -233,9 +205,10 @@ export default function Home() {
           <h2>Use CHAY_CE textures.</h2>
           <p>
             Download ChayMedia, extract it into your World of Warcraft AddOns folder,
-            reload the game, then select the CHAY_CE Bushido textures from ElvUI,
-            Details, nameplates, cast bars, or any LibSharedMedia-compatible texture
-            dropdown.
+            reload the game, then select the CHAY_CE textures from the shared media
+            lists inside ElvUI, Details, nameplates, cast bars, or any
+            LibSharedMedia-compatible addon. This adds my exact textures and fonts
+            into SharedMedia so the whole UI can match.
           </p>
         </div>
 
@@ -246,6 +219,34 @@ export default function Home() {
           <span className="secondary-button" aria-disabled="true">
             Reload WoW After Install
           </span>
+        </div>
+      </section>
+
+      <section id="downloads" className="downloads-section downloads-section-primary">
+        <p className="section-kicker">Downloads</p>
+        <h2>Pick Your Download.</h2>
+        <p className="section-intro">
+          Each item below is its own separate download or external addon page.
+        </p>
+
+        <div className="download-grid">
+          {addonCards.map((card) => (
+            <DownloadCard key={card.title} card={card} />
+          ))}
+        </div>
+      </section>
+
+      <section className="downloads-section imports-section">
+        <p className="section-kicker">Imports</p>
+        <h2>EX Imports.</h2>
+        <p className="section-intro">
+          Separate import files for EXBoss and EX WindTools.
+        </p>
+
+        <div className="download-grid import-grid">
+          {importCards.map((card) => (
+            <DownloadCard key={card.title} card={card} />
+          ))}
         </div>
       </section>
 
