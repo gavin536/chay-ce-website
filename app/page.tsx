@@ -60,7 +60,7 @@ const addonCards: DownloadCard[] = [
     label: "ADDON",
     image: "/images/chay-logo.png",
     description:
-      "CHAY_CE addon profiles package with a dedicated dragon card for the downloads tab.",
+      "A Retail WoW addon manager for one-click swapping between Raid, M+, Dungeon, Delve, World, City, and PvP addon loadouts.",
     href: "/downloads/ChayAddonProfiles.zip",
     button: "Download Addon Profiles",
   },
@@ -178,7 +178,9 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="feature-panel">
+        <details className="feature-panel">
+          <summary className="card-button">Open Setup Guide + FAQ</summary>
+
           <p>1. Install ElvUI.</p>
           <p>2. Install Details!.</p>
           <p>3. Download and import the CHAY_CE ElvUI profile.</p>
@@ -216,7 +218,7 @@ export default function Home() {
             Use ChayMedia if you want the custom textures, fonts, and media used
             by the CHAY_CE profiles.
           </p>
-        </div>
+        </details>
       </section>
 
       <section className="support-section" aria-label="CHAY_CE media instructions">
