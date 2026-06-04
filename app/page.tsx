@@ -177,33 +177,7 @@ export default function Home() {
         </aside>
       </section>
 
-      <section className="quality-strip" aria-label="Site features">
-        <article>
-          <span>01</span>
-          <h3>Premium Quality</h3>
-          <p>UI systems built for clarity, speed, and clean presentation.</p>
-        </article>
-
-        <article>
-          <span>02</span>
-          <h3>Cinematic Design</h3>
-          <p>Dark red MMO styling with stream-ready visuals.</p>
-        </article>
-
-        <article>
-          <span>03</span>
-          <h3>Creator Focused</h3>
-          <p>Profiles, imports, tools, textures, and visuals built around content creation.</p>
-        </article>
-
-        <article>
-          <span>04</span>
-          <h3>Community Driven</h3>
-          <p>Connected through Twitch, Discord, World of Warcraft, and stream team growth.</p>
-        </article>
-      </section>
-
-      <section id="downloads" className="downloads-section">
+      <section id="downloads" className="downloads-section downloads-section-primary">
         <p className="section-kicker">Downloads</p>
         <h2>Pick Your Download.</h2>
         <p className="section-intro">
