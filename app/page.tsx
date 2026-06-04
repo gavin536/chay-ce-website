@@ -64,6 +64,15 @@ const addonCards: DownloadCard[] = [
     href: "/downloads/details-profile.txt",
     button: "Download Profile",
   },
+  {
+    title: "ChayAddonProfiles",
+    label: "ADDON",
+    image: "/images/chay-dragon.jpg",
+    description:
+      "CHAY_CE addon profiles package with a dedicated dragon card for the downloads tab.",
+    href: "/downloads/ChayAddonProfiles.zip",
+    button: "Download Addon Profiles",
+  },
 ];
 
 const importCards: DownloadCard[] = [
@@ -303,14 +312,6 @@ export default function Home() {
           >
             DM @chay_ce
           </a>
-          <a
-            className="secondary-button"
-            href="https://discord.gg/q4thpsfSvm"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Community Discord
-          </a>
         </div>
       </section>
 
@@ -332,14 +333,6 @@ export default function Home() {
             rel="noreferrer"
           >
             Twitch
-          </a>
-          <a
-            className="secondary-button"
-            href="https://discord.gg/q4thpsfSvm"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Discord
           </a>
           <a
             className="secondary-button"
