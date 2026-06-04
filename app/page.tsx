@@ -205,6 +205,28 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="support-section" aria-label="CHAY_CE UI setup guide">
+        <div>
+          <p className="section-kicker">Setup Guide</p>
+          <h2>CHAY_CE UI Setup Guide</h2>
+          <p>
+            Follow this install order to get the full CHAY_CE UI working cleanly
+            in-game.
+          </p>
+        </div>
+
+        <div className="feature-panel">
+          <p>1. Install ElvUI.</p>
+          <p>2. Install Details!.</p>
+          <p>3. Download and import the CHAY_CE ElvUI profile.</p>
+          <p>4. Download and import the Details profile.</p>
+          <p>5. Download and import the EXBoss profile.</p>
+          <p>6. Download and import the EX WindTools profile.</p>
+          <p>7. Install ChayMedia if using the custom textures/fonts.</p>
+          <p>8. Reload UI in-game.</p>
+        </div>
+      </section>
+
       <section className="support-section" aria-label="CHAY_CE media instructions">
         <div>
           <p className="section-kicker">How To</p>
