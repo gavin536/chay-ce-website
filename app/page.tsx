@@ -38,15 +38,6 @@ const addonCards: DownloadCard[] = [
     external: true,
   },
   {
-    title: "CHAY_CE Media Library",
-    label: "MEDIA",
-    image: "/images/chaymedia-logo.png",
-    description:
-      "Adds CHAY_CE Bushido textures to ElvUI, Details, nameplates, bars, and other LibSharedMedia-compatible addons.",
-    href: "/downloads/ChayMedia.zip",
-    button: "Download Media Library",
-  },
-  {
     title: "ElvUI Profile",
     label: "PROFILE",
     image: "/images/elvui-card.png",
@@ -67,7 +58,7 @@ const addonCards: DownloadCard[] = [
   {
     title: "ChayAddonProfiles",
     label: "ADDON",
-    image: "/images/chay-dragon.jpg",
+    image: "/images/chay-logo.png",
     description:
       "CHAY_CE addon profiles package with a dedicated dragon card for the downloads tab.",
     href: "/downloads/ChayAddonProfiles.zip",
