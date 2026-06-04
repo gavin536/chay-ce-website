@@ -262,6 +262,39 @@ export default function Home() {
             <DownloadCard key={card.title} card={card} />
           ))}
         </div>
+
+        <details className="feature-panel">
+          <summary className="card-button">What each download is for</summary>
+
+          <p>
+            ChayMedia adds the CHAY_CE custom textures and fonts into
+            LibSharedMedia-compatible addons so the full UI can match.
+          </p>
+          <p>
+            ElvUI Profile is the main CHAY_CE interface layout and should be
+            imported into ElvUI.
+          </p>
+          <p>
+            Details! Profile is the matching meter profile for players using
+            Details!.
+          </p>
+          <p>
+            ChayBar is a custom action bar addon built for a cleaner and more
+            controlled gameplay layout.
+          </p>
+          <p>
+            ChayImages adds the custom UI visuals and image assets used across
+            the CHAY_CE interface style.
+          </p>
+          <p>
+            EXBoss Import is the import string for the EXBoss addon to match the
+            CHAY_CE layout.
+          </p>
+          <p>
+            EX WindTools Import is the import string for EX WindTools so its
+            layout fits the rest of the CHAY_CE UI.
+          </p>
+        </details>
       </section>
 
       <section className="downloads-section imports-section">
