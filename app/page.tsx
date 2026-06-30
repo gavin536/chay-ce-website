@@ -38,6 +38,25 @@ const addonCards: DownloadCard[] = [
     external: true,
   },
   {
+    title: "ChayChat",
+    label: "ADDON",
+    image: "/images/chay-logo.png",
+    description:
+      "A Chay_CE styled whisper and chat popout addon built for cleaner messages, better visibility, and stream-friendly chat control.",
+    href: "https://www.curseforge.com/wow/addons/chaychat",
+    button: "View on CurseForge",
+    external: true,
+  },
+  {
+    title: "CHAY_CE Media Library",
+    label: "MEDIA",
+    image: "/images/chaymedia-logo.png",
+    description:
+      "Adds CHAY_CE Bushido textures to ElvUI, Details, nameplates, bars, and other LibSharedMedia-compatible addons.",
+    href: "/downloads/ChayMedia.zip",
+    button: "Download Media Library",
+  },
+  {
     title: "ElvUI Profile",
     label: "PROFILE",
     image: "/images/elvui-card.png",
@@ -54,15 +73,6 @@ const addonCards: DownloadCard[] = [
       "My personal Details! profile for clean damage tracking and readable meters.",
     href: "/downloads/details-profile.txt",
     button: "Download Profile",
-  },
-  {
-    title: "ChayAddonProfiles",
-    label: "ADDON",
-    image: "/images/chay-logo.png",
-    description:
-      "A Retail WoW addon manager for one-click swapping between Raid, M+, Dungeon, Delve, World, City, and PvP addon loadouts.",
-    href: "/downloads/ChayAddonProfiles.zip",
-    button: "Download Addon Profiles",
   },
 ];
 
@@ -82,7 +92,7 @@ const importCards: DownloadCard[] = [
     image: "/images/EXBoss.jpg",
     description:
       "EX WindTools import setup made to fit the CHAY_CE UI layout.",
-    href: "/downloads/exwindtools.txt",
+    href: "/downloads/ExwindTools.txt",
     button: "Download Import",
   },
 ];
@@ -161,96 +171,40 @@ export default function Home() {
 
           <h2>Simple. Clean. Expandable.</h2>
           <p>
-            Start fresh with ElvUI, Details, ChayBar, ChayImages, ChayMedia,
-            EXBoss, and EX WindTools. Built to grow later without turning your
-            UI into clutter.
+            Start fresh with ElvUI, Details, ChayBar, ChayImages, ChayChat,
+            ChayMedia, EXBoss, and EX WindTools. Built to grow later without
+            turning your UI into clutter.
           </p>
         </aside>
       </section>
 
-      <section className="support-section" aria-label="CHAY_CE UI setup guide">
-        <div>
-          <p className="section-kicker">Setup Guide</p>
-          <h2>CHAY_CE UI Setup Guide</h2>
-          <p>
-            Follow this install order to get the full CHAY_CE UI working cleanly
-            in-game.
-          </p>
-        </div>
+      <section className="quality-strip" aria-label="Site features">
+        <article>
+          <span>01</span>
+          <h3>Premium Quality</h3>
+          <p>UI systems built for clarity, speed, and clean presentation.</p>
+        </article>
 
-        <details className="feature-panel">
-          <summary className="card-button">Open Setup Guide + FAQ</summary>
+        <article>
+          <span>02</span>
+          <h3>Cinematic Design</h3>
+          <p>Dark red MMO styling with stream-ready visuals.</p>
+        </article>
 
-          <p>1. Install ElvUI.</p>
-          <p>2. Install Details!.</p>
-          <p>3. Download and import the CHAY_CE ElvUI profile.</p>
-          <p>4. Download and import the Details profile.</p>
-          <p>5. Download and import the EXBoss profile.</p>
-          <p>6. Download and import the EX WindTools profile.</p>
-          <p>7. Install ChayMedia if using the custom textures/fonts.</p>
-          <p>8. Reload UI in-game.</p>
+        <article>
+          <span>03</span>
+          <h3>Creator Focused</h3>
+          <p>Profiles, imports, tools, textures, and visuals built around content creation.</p>
+        </article>
 
-          <p className="panel-kicker">FAQ</p>
-          <p>1. Do I need ElvUI?</p>
-          <p>
-            Yes. The CHAY_CE profile is built for ElvUI and should be imported
-            after ElvUI is installed.
-          </p>
-          <p>2. Do I need Details!?</p>
-          <p>Only if you want to use the CHAY_CE Details profile.</p>
-          <p>3. Where do I put EXBoss and EX WindTools imports?</p>
-          <p>
-            Copy the import text from the download file, then paste it into the
-            matching addon import window in-game.
-          </p>
-          <p>4. Do these work on Retail and Midnight?</p>
-          <p>
-            The files are intended for current Retail and Midnight-ready UI
-            setups.
-          </p>
-          <p>5. Why does my UI look different?</p>
-          <p>
-            Missing addons, missing media files, different resolution, or
-            different UI scale can change the final look.
-          </p>
-          <p>6. Do I need ChayMedia?</p>
-          <p>
-            Use ChayMedia if you want the custom textures, fonts, and media used
-            by the CHAY_CE profiles.
-          </p>
-        </details>
+        <article>
+          <span>04</span>
+          <h3>Community Driven</h3>
+          <p>Connected through Twitch, Discord, World of Warcraft, and stream team growth.</p>
+        </article>
       </section>
 
-      <section className="support-section" aria-label="CHAY_CE media instructions">
-        <div>
-          <p className="section-kicker">How To</p>
-          <h2>Use CHAY_CE textures.</h2>
-          <p>
-            Download ChayMedia, extract it into your World of Warcraft AddOns folder,
-            reload the game, then select the CHAY_CE textures from the shared media
-            lists inside ElvUI, Details, nameplates, cast bars, or any
-            LibSharedMedia-compatible addon. This adds my exact textures and fonts
-            into SharedMedia so the whole UI can match.
-          </p>
-        </div>
-
-        <div>
-          <div className="card-image-wrap">
-            <img src="/images/chaymedia-logo.png" alt="CHAY_CE Media Library" />
-          </div>
-
-          <div className="support-actions">
-            <a className="primary-button" href="/downloads/ChayMedia.zip">
-              Download ChayMedia
-            </a>
-            <span className="secondary-button" aria-disabled="true">
-              Reload WoW After Install
-            </span>
-          </div>
-        </div>
-      </section>
-
-      <section id="downloads" className="downloads-section downloads-section-primary">
+      <section id="downloads" className="downloads-section">
         <p className="section-kicker">Downloads</p>
         <h2>Pick Your Download.</h2>
         <p className="section-intro">
@@ -262,39 +216,6 @@ export default function Home() {
             <DownloadCard key={card.title} card={card} />
           ))}
         </div>
-
-        <details className="feature-panel">
-          <summary className="card-button">What each download is for</summary>
-
-          <p>
-            ChayMedia adds the CHAY_CE custom textures and fonts into
-            LibSharedMedia-compatible addons so the full UI can match.
-          </p>
-          <p>
-            ElvUI Profile is the main CHAY_CE interface layout and should be
-            imported into ElvUI.
-          </p>
-          <p>
-            Details! Profile is the matching meter profile for players using
-            Details!.
-          </p>
-          <p>
-            ChayBar is a custom action bar addon built for a cleaner and more
-            controlled gameplay layout.
-          </p>
-          <p>
-            ChayImages adds the custom UI visuals and image assets used across
-            the CHAY_CE interface style.
-          </p>
-          <p>
-            EXBoss Import is the import string for the EXBoss addon to match the
-            CHAY_CE layout.
-          </p>
-          <p>
-            EX WindTools Import is the import string for EX WindTools so its
-            layout fits the rest of the CHAY_CE UI.
-          </p>
-        </details>
       </section>
 
       <section className="downloads-section imports-section">
@@ -308,6 +229,28 @@ export default function Home() {
           {importCards.map((card) => (
             <DownloadCard key={card.title} card={card} />
           ))}
+        </div>
+      </section>
+
+      <section className="support-section" aria-label="CHAY_CE media instructions">
+        <div>
+          <p className="section-kicker">How To</p>
+          <h2>Use CHAY_CE textures.</h2>
+          <p>
+            Download ChayMedia, extract it into your World of Warcraft AddOns folder,
+            reload the game, then select the CHAY_CE Bushido textures from ElvUI,
+            Details, nameplates, cast bars, or any LibSharedMedia-compatible texture
+            dropdown.
+          </p>
+        </div>
+
+        <div className="support-actions">
+          <a className="primary-button" href="/downloads/ChayMedia.zip">
+            Download ChayMedia
+          </a>
+          <span className="secondary-button" aria-disabled="true">
+            Reload WoW After Install
+          </span>
         </div>
       </section>
 
@@ -333,42 +276,28 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="support-section stream-team-section">
+      <section className="support-section">
         <div>
-          <p className="section-kicker">Stream Team</p>
-          <h2>Join the stream team.</h2>
+          <p className="section-kicker">Community</p>
+          <h2>Stream team Discord.</h2>
           <p>
-            Want to join the CHAY_CE Twitch stream team? Join the Discord and send me
-            a quick message with your stream details. I review every request there.
-          </p>
-
-          <p>
-            Message me directly on Discord: <strong>@chay_ce</strong>
-          </p>
-
-          <p className="stream-team-template-label">Copy and send this in Discord:</p>
-          <p className="stream-team-template">
-            Hey Chay, I want to join the stream team. My Twitch is: [your-link].
-            I stream: [days/times]. My main games/content: [what-you-play].
+            A separate stream team community space is planned for creators,
+            collaborators, raid content, stream networking, and CHAY_CE community
+            projects.
           </p>
         </div>
 
         <div className="support-actions">
+          <span className="primary-button" aria-disabled="true">
+            Stream Team Discord Coming Soon
+          </span>
           <a
-            className="primary-button"
+            className="secondary-button"
             href="https://discord.gg/q4thpsfSvm"
             target="_blank"
             rel="noreferrer"
           >
-            Join Discord
-          </a>
-          <a
-            className="secondary-button"
-            href="https://discord.com/users/213862970793525259"
-            target="_blank"
-            rel="noreferrer"
-          >
-            DM @chay_ce
+            Main Community Discord
           </a>
         </div>
       </section>
@@ -391,6 +320,14 @@ export default function Home() {
             rel="noreferrer"
           >
             Twitch
+          </a>
+          <a
+            className="secondary-button"
+            href="https://discord.gg/q4thpsfSvm"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Discord
           </a>
           <a
             className="secondary-button"
