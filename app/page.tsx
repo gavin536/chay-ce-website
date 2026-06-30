@@ -43,9 +43,8 @@ const addonCards: DownloadCard[] = [
     image: "/images/chay-logo.png",
     description:
       "A Chay_CE styled whisper and chat popout addon built for cleaner messages, better visibility, and stream-friendly chat control.",
-    href: "https://www.curseforge.com/wow/addons/chaychat",
-    button: "View on CurseForge",
-    external: true,
+    href: "/downloads/ChayChat.zip",
+    button: "Download Addon",
   },
   {
     title: "CHAY_CE Media Library",
