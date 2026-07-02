@@ -109,6 +109,9 @@ export default function Home() {
         <nav className="main-nav" aria-label="Main navigation">
           <a href="#home">Home</a>
           <a href="#downloads">Downloads</a>
+          <a href="https://scymplex.com/" target="_blank" rel="noreferrer">
+            Addons made by Scymplex
+          </a>
           <a href="#support">Support</a>
           <a href="https://discord.gg/q4thpsfSvm" target="_blank" rel="noreferrer">
             Community
