@@ -47,6 +47,33 @@ const addonCards: DownloadCard[] = [
     button: "Download Addon",
   },
   {
+    title: "ChayAlert HUD",
+    label: "ADDON",
+    image: "/images/chay-logo.png",
+    description:
+      "Custom World of Warcraft combat alert HUD with configurable mechanic alerts, circles, timeline tracking, sounds, and TTS.",
+    href: "/downloads/ChayAlertHUD.zip",
+    button: "Download Addon",
+  },
+  {
+    title: "ChayLFGRegions",
+    label: "ADDON",
+    image: "/images/chay-logo.png",
+    description:
+      "Displays useful region information for World of Warcraft Group Finder listings.",
+    href: "/downloads/ChayLFGRegions.zip",
+    button: "Download Addon",
+  },
+  {
+    title: "ChayDemonicCore",
+    label: "ADDON",
+    image: "/images/chay-logo.png",
+    description:
+      "A lightweight World of Warcraft addon for tracking Demonic Core procs and related Demonology Warlock information.",
+    href: "/downloads/ChayDemonicCore.zip",
+    button: "Download Addon",
+  },
+  {
     title: "CHAY_CE Media Library",
     label: "MEDIA",
     image: "/images/chaymedia-logo.png",
@@ -76,15 +103,6 @@ const addonCards: DownloadCard[] = [
 ];
 
 const importCards: DownloadCard[] = [
-  {
-    title: "EXBoss Import",
-    label: "IMPORT",
-    image: "/images/EXBoss.jpg",
-    description:
-      "EXBoss import setup for matching the CHAY_CE UI ecosystem.",
-    href: "/downloads/ExBoss.txt",
-    button: "Download Import",
-  },
   {
     title: "EX WindTools Import",
     label: "IMPORT",
@@ -174,7 +192,7 @@ export default function Home() {
           <h2>Simple. Clean. Expandable.</h2>
           <p>
             Start fresh with ElvUI, Details, ChayBar, ChayImages, ChayChat,
-            ChayMedia, EXBoss, and EX WindTools. Built to grow later without
+            ChayMedia, and EX WindTools. Built to grow later without
             turning your UI into clutter.
           </p>
         </aside>
@@ -224,7 +242,7 @@ export default function Home() {
         <p className="section-kicker">Imports</p>
         <h2>EX Imports.</h2>
         <p className="section-intro">
-          Separate import files for EXBoss and EX WindTools.
+          Separate import file for EX WindTools.
         </p>
 
         <div className="download-grid import-grid">
