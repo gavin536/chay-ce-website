@@ -90,6 +90,7 @@ export async function onRequestPost({ request, env }: PagesFunctionContext) {
   ].join("\n");
 
   try {
+    await logDiscordDiagnostics(env.DISCORD_BOT_TOKEN);
     const channelId = await createDiscordDmChannel(env.DISCORD_BOT_TOKEN, env.DISCORD_TARGET_USER_ID);
     await sendDiscordMessage(env.DISCORD_BOT_TOKEN, channelId, discordMessage);
   } catch (error) {
@@ -187,6 +188,68 @@ function isRateLimited(clientId: string) {
   rateLimits.set(clientId, existing);
 
   return existing.count > maxRequestsPerWindow;
+}
+
+async function logDiscordDiagnostics(botToken: string) {
+  try {
+    const authenticatedBotResponse = await fetch("https://discord.com/api/v10/users/@me", {
+      headers: discordHeaders(botToken),
+    });
+
+    if (!authenticatedBotResponse.ok) {
+      const responseBody = await authenticatedBotResponse.text();
+      console.error(
+        "Discord authenticated bot diagnostic failed:",
+        authenticatedBotResponse.status,
+        authenticatedBotResponse.statusText,
+        responseBody,
+      );
+    } else {
+      const authenticatedBot = (await authenticatedBotResponse.json()) as {
+        id?: unknown;
+        username?: unknown;
+        global_name?: unknown;
+        bot?: unknown;
+      };
+
+      console.error("Discord authenticated bot:", {
+        id: authenticatedBot.id,
+        username: authenticatedBot.username,
+        global_name: authenticatedBot.global_name,
+        bot: authenticatedBot.bot,
+      });
+    }
+  } catch (error) {
+    console.error(
+      "Discord authenticated bot diagnostic failed:",
+      error instanceof Error ? error.message : String(error),
+    );
+  }
+
+  try {
+    const guildsResponse = await fetch("https://discord.com/api/v10/users/@me/guilds", {
+      headers: discordHeaders(botToken),
+    });
+
+    if (!guildsResponse.ok) {
+      const responseBody = await guildsResponse.text();
+      console.error(
+        "Discord bot guilds diagnostic failed:",
+        guildsResponse.status,
+        guildsResponse.statusText,
+        responseBody,
+      );
+    } else {
+      const guilds = (await guildsResponse.json()) as Array<{ id?: unknown; name?: unknown }>;
+
+      console.error(
+        "Discord bot guilds:",
+        guilds.map((guild) => ({ id: guild.id, name: guild.name })),
+      );
+    }
+  } catch (error) {
+    console.error("Discord bot guilds diagnostic failed:", error instanceof Error ? error.message : String(error));
+  }
 }
 
 async function createDiscordDmChannel(botToken: string, userId: string) {
