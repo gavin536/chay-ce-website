@@ -291,6 +291,46 @@ async function logDiscordDiagnostics(botToken: string, targetUserId: string) {
   } catch (error) {
     console.error("Discord bot guilds diagnostic failed:", error instanceof Error ? error.message : String(error));
   }
+
+  try {
+    const guildResponse = await fetch("https://discord.com/api/v10/guilds/1193051668552630293", {
+      headers: discordHeaders(botToken),
+    });
+
+    if (!guildResponse.ok) {
+      const responseBody = await guildResponse.text();
+      console.error(
+        "Discord guild incident state:",
+        guildResponse.status,
+        guildResponse.statusText,
+        responseBody,
+      );
+    } else {
+      const guild = (await guildResponse.json()) as {
+        id?: unknown;
+        name?: unknown;
+        incidents_data?: {
+          dms_disabled_until?: unknown;
+          dm_spam_detected_at?: unknown;
+          raid_detected_at?: unknown;
+          invites_disabled_until?: unknown;
+        };
+      };
+
+      console.error("Discord guild incident state:", {
+        id: guild.id,
+        name: guild.name,
+        incidents_data: {
+          dms_disabled_until: guild.incidents_data?.dms_disabled_until,
+          dm_spam_detected_at: guild.incidents_data?.dm_spam_detected_at,
+          raid_detected_at: guild.incidents_data?.raid_detected_at,
+          invites_disabled_until: guild.incidents_data?.invites_disabled_until,
+        },
+      });
+    }
+  } catch (error) {
+    console.error("Discord guild incident state:", error instanceof Error ? error.message : String(error));
+  }
 }
 
 async function createDiscordDmChannel(botToken: string, userId: string) {
