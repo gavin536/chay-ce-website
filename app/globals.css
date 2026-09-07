@@ -1278,6 +1278,14 @@ video {
   padding: 13px 14px;
 }
 
+.feedback-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .feedback-form input:focus,
 .feedback-form select:focus,
 .feedback-form textarea:focus,

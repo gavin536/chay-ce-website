@@ -29,6 +29,7 @@ export function CommunityFeedbackForm() {
       discord: formData.get("discord"),
       type: formData.get("type"),
       message: formData.get("message"),
+      website: formData.get("website"),
     };
 
     try {
@@ -42,14 +43,19 @@ export function CommunityFeedbackForm() {
 
       if (!response.ok) {
         const body = (await response.json().catch(() => null)) as { error?: string } | null;
-        throw new Error(body?.error ?? "Could not send your suggestion right now.");
+        throw new Error(body?.error ?? "Unable to send your suggestion right now. Please try again later.");
       }
 
-      form.reset();
+      const messageField = form.elements.namedItem("message");
+
+      if (messageField instanceof HTMLTextAreaElement) {
+        messageField.value = "";
+      }
+
       setSubmitState("success");
     } catch (error) {
       setSubmitState("error");
-      setErrorMessage(error instanceof Error ? error.message : "Could not send your suggestion right now.");
+      setErrorMessage(error instanceof Error ? error.message : "Unable to send your suggestion right now. Please try again later.");
     }
   }
 
@@ -82,12 +88,17 @@ export function CommunityFeedbackForm() {
         <textarea name="message" required maxLength={1200} rows={6} />
       </label>
 
+      <label className="feedback-honeypot" aria-hidden="true">
+        <span>Website</span>
+        <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </label>
+
       <div className="feedback-submit-row">
         <button className="primary-button" type="submit" disabled={submitState === "submitting"}>
           {submitState === "submitting" ? "Sending..." : "Send Suggestion"}
         </button>
         <p className={`feedback-status feedback-status-${submitState}`} id={statusId} aria-live="polite">
-          {submitState === "success" ? "Suggestion sent. Thank you." : null}
+          {submitState === "success" ? "Suggestion sent to Chay on Discord." : null}
           {submitState === "error" ? errorMessage : null}
         </p>
       </div>

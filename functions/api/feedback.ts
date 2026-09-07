@@ -1,6 +1,6 @@
 type FeedbackEnv = {
   DISCORD_BOT_TOKEN?: string;
-  DISCORD_FEEDBACK_USER_ID?: string;
+  DISCORD_TARGET_USER_ID?: string;
 };
 
 type PagesFunctionContext = {
@@ -43,17 +43,17 @@ export async function onRequestPost({ request, env }: PagesFunctionContext) {
   const clientId = getClientId(request);
 
   if (isRateLimited(clientId)) {
-    return jsonResponse({ error: "Too many submissions. Please try again later." }, 429);
+    return jsonResponse({ error: "Unable to send your suggestion right now. Please try again later." }, 429);
   }
 
-  if (!env.DISCORD_BOT_TOKEN || !env.DISCORD_FEEDBACK_USER_ID) {
-    return jsonResponse({ error: "Feedback delivery is not configured yet." }, 500);
+  if (!env.DISCORD_BOT_TOKEN || !isDiscordUserId(env.DISCORD_TARGET_USER_ID)) {
+    return jsonResponse({ error: "Feedback delivery is temporarily unavailable." }, 503);
   }
 
   const contentLength = Number(request.headers.get("content-length") ?? "0");
 
   if (contentLength > 6_000) {
-    return jsonResponse({ error: "Submission is too large." }, 413);
+    return jsonResponse({ error: "Unable to send your suggestion right now. Please try again later." }, 413);
   }
 
   let body: unknown;
@@ -61,7 +61,7 @@ export async function onRequestPost({ request, env }: PagesFunctionContext) {
   try {
     body = await request.json();
   } catch {
-    return jsonResponse({ error: "Invalid feedback payload." }, 400);
+    return jsonResponse({ error: "Unable to send your suggestion right now. Please try again later." }, 400);
   }
 
   const feedback = validateFeedback(body);
@@ -71,21 +71,29 @@ export async function onRequestPost({ request, env }: PagesFunctionContext) {
   }
 
   const discordMessage = [
-    "**New CHAY_CE Website Feedback**",
+    "**NEW CHAY_CE WEBSITE FEEDBACK**",
     "",
-    `**From:** ${feedback.value.name}`,
-    `**Discord:** ${feedback.value.discord || "Not provided"}`,
-    `**Type:** ${feedback.value.type}`,
+    "**FROM:**",
+    feedback.value.name,
     "",
-    "**Message:**",
+    "**DISCORD:**",
+    feedback.value.discord || "Not provided",
+    "",
+    "**TYPE:**",
+    feedback.value.type,
+    "",
+    "**MESSAGE:**",
     feedback.value.message,
+    "",
+    "**SOURCE:**",
+    "chay-ce.com",
   ].join("\n");
 
   try {
-    const channelId = await createDiscordDmChannel(env.DISCORD_BOT_TOKEN, env.DISCORD_FEEDBACK_USER_ID);
+    const channelId = await createDiscordDmChannel(env.DISCORD_BOT_TOKEN, env.DISCORD_TARGET_USER_ID);
     await sendDiscordMessage(env.DISCORD_BOT_TOKEN, channelId, discordMessage);
   } catch {
-    return jsonResponse({ error: "Could not deliver feedback right now." }, 502);
+    return jsonResponse({ error: "Unable to send your suggestion right now. Please try again later." }, 502);
   }
 
   return jsonResponse({ ok: true }, 200);
@@ -102,6 +110,11 @@ function validateFeedback(body: unknown):
   const discord = sanitizeField(body.discord, 80);
   const type = sanitizeField(body.type, 40);
   const message = sanitizeField(body.message, 1200);
+  const website = sanitizeField(body.website, 120);
+
+  if (website) {
+    return { ok: false, error: "Unable to send your suggestion right now. Please try again later." };
+  }
 
   if (!name) {
     return { ok: false, error: "Name / Twitch Handle is required." };
@@ -142,6 +155,10 @@ function sanitizeField(value: unknown, maxLength: number) {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isDiscordUserId(value: unknown): value is string {
+  return typeof value === "string" && /^\d{17,20}$/.test(value);
 }
 
 function getClientId(request: Request) {
