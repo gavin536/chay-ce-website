@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { CommunityFeedbackForm } from "./components/CommunityFeedbackForm";
 import { MerchPreviewButton } from "./components/MerchPreviewButton";
+import { ScreenshotGalleryButton } from "./components/ScreenshotGalleryButton";
+import { addonScreenshots } from "./generated/addonScreenshots";
 
 export const metadata: Metadata = {
   title: "CHAY_CE | WoW UI Profiles, Addons, Stream Tools",
@@ -16,6 +18,7 @@ type DownloadCard = {
   href: string;
   button: string;
   external?: boolean;
+  screenshotFolder?: keyof typeof addonScreenshots;
 };
 
 type RaiderIoScoreSegment = {
@@ -134,65 +137,72 @@ const addonCards: DownloadCard[] = [
     label: "ADDON",
     image: "/images/chaybar-card.png",
     description:
-      "A clean action bar addon built for performance, visibility, and a sharp Chay_CE style.",
+      "ChayBar is a lightweight World of Warcraft action bar addon designed around the CHAY_CE visual style.\n\nIt provides a cleaner action bar presentation focused on visibility, responsiveness, customization, and performance while maintaining the core functionality expected from World of Warcraft ability bars.\n\nThe addon is designed to fit naturally into custom UI layouts and reduce unnecessary visual clutter while keeping abilities easy to identify during combat.\n\nChayBar is intended for players who want a clean custom action-bar solution without requiring a much larger full UI replacement.",
     href: "https://www.curseforge.com/wow/addons/chaybar",
     button: "View on CurseForge",
     external: true,
+    screenshotFolder: "chaybar",
   },
   {
     title: "ChayImages",
     label: "ADDON",
     image: "/images/chayimages-card.png",
     description:
-      "Custom UI images, textures, and visuals for a sharper World of Warcraft setup.",
+      "ChayImages is a collection of custom CHAY_CE artwork, textures, logos, and visual assets created for World of Warcraft user interfaces.\n\nThe package is intended for players who want to build a consistent CHAY_CE-themed UI across compatible addons and interface elements.\n\nIncluded assets can be used for backgrounds, logos, decorative elements, and other visual customization where supported.\n\nChayImages focuses on visual assets rather than gameplay functionality and acts as a companion package for CHAY_CE interface customization.",
     href: "https://www.curseforge.com/wow/addons/chayimages",
     button: "View on CurseForge",
     external: true,
+    screenshotFolder: "chayimages",
   },
   {
     title: "ChayChat",
     label: "ADDON",
     image: "/images/chay-logo.png",
     description:
-      "A Chay_CE styled whisper and chat popout addon built for cleaner messages, better visibility, and stream-friendly chat control.",
+      "ChayChat is a custom chat and whisper interface designed to make World of Warcraft conversations cleaner, easier to follow, and more stream-friendly.\n\nThe addon provides dedicated whisper popout windows so conversations can be separated from the normal Blizzard chat frame. Messages are presented in a cleaner layout with configurable appearance, improved readability, and dedicated reply controls.\n\nChayChat supports normal character whispers and Battle.net whispers, including outgoing message handling, item-link insertion, Shift-click item links, and Blizzard Link to Chat functionality.\n\nThe interface is designed to reduce clutter while keeping important conversations visible during gameplay and streaming.",
     href: "/downloads/ChayChat.zip",
     button: "Download Addon",
+    screenshotFolder: "chaychat",
   },
   {
     title: "ChayAlert HUD",
     label: "ADDON",
     image: "/images/chay-logo.png",
     description:
-      "Custom World of Warcraft combat alert HUD with configurable mechanic alerts, circles, timeline tracking, sounds, and TTS.",
+      "ChayAlert HUD is a configurable combat mechanic alert system for World of Warcraft dungeons and raids. It is designed to surface important encounter information clearly without overwhelming the player with unnecessary alerts.\n\nThe addon supports movable alert circles and an optional timeline HUD for tracking important upcoming mechanics. Alerts can be filtered by role using Tank, Healer, DPS, Auto, or All profiles, with recommended mechanics tailored to the selected role.\n\nIndividual abilities can be configured separately, including whether they are enabled, whether they display a circle, whether they appear on the timeline, and whether they use sounds or text-to-speech. ChayAlert HUD also supports per-ability preview controls, mechanic categories, customizable fonts, textures, colors, positioning, sizing, and SharedMedia integration.\n\nAdditional functionality includes configurable tank-buster alerts, supported tank-swap voice handling, customizable TTS behavior, profile import/export, character profile copying, and extensive layout customization.\n\nThe goal of ChayAlert HUD is to provide a flexible encounter-alert system that lets players control exactly what information they want to see and hear.",
     href: "/downloads/ChayAlertHUD.zip",
     button: "Download Addon",
+    screenshotFolder: "chayalert-hud",
   },
   {
     title: "ChayLFGRegions",
     label: "ADDON",
     image: "/images/chay-logo.png",
     description:
-      "Displays useful region information for World of Warcraft Group Finder listings.",
+      "ChayLFGRegions enhances the World of Warcraft Group Finder by adding useful regional information directly to group listings.\n\nThe addon makes it easier to understand where listings are coming from before joining, helping players evaluate groups and recognize regional group composition at a glance.\n\nRegion information is integrated into the existing Group Finder workflow so players do not need to leave the game or manually research realms.\n\nThe addon keeps Blizzard's normal Group Finder experience intact while adding the additional regional context in a lightweight way.",
     href: "/downloads/ChayLFGRegions.zip",
     button: "Download Addon",
+    screenshotFolder: "chaylfgregions",
   },
   {
     title: "ChayDemonicCore",
     label: "ADDON",
     image: "/images/chay-logo.png",
     description:
-      "A lightweight World of Warcraft addon for tracking Demonic Core procs and related Demonology Warlock information.",
+      "ChayDemonicCore is a focused Demonology Warlock tracker designed specifically around Demonic Core proc management.\n\nThe addon displays available Demonic Core procs in a clear and highly visible format so players can immediately see when procs are available and how many stacks they currently have.\n\nThe display can be customized for size, position, visibility, and alert behavior. Optional visual and sound alerts help make important proc states easier to notice during combat.\n\nBuilt-in test controls allow the tracker to be previewed and positioned without waiting for a proc to occur naturally.\n\nThe addon is intentionally focused on Demonic Core rather than acting as a complete rotational assistant, keeping the display lightweight and uncluttered.",
     href: "/downloads/ChayDemonicCore.zip",
     button: "Download Addon",
+    screenshotFolder: "chaydemoniccore",
   },
   {
     title: "CHAY_CE Media Library",
     label: "MEDIA",
     image: "/images/chaymedia-logo.png",
     description:
-      "Adds CHAY_CE Bushido textures to ElvUI, Details, nameplates, bars, and other LibSharedMedia-compatible addons.",
+      "The CHAY_CE Media Library is a LibSharedMedia-compatible media package that provides custom CHAY_CE textures for use across World of Warcraft addons.\n\nRegistered media can be used by compatible addons such as ElvUI, Details!, nameplates, status bars, unit frames, and other addons that support LibSharedMedia.\n\nThe library includes CHAY_CE Bushido textures and supports compatible SharedMedia textures registered by other addons, allowing supported media to be available alongside the CHAY_CE collection.\n\nIts purpose is to provide a central reusable media library so compatible textures can be selected consistently across multiple addons without duplicating media files.",
     href: "/downloads/ChayMedia.zip",
     button: "Download Media Library",
+    screenshotFolder: "chaymedia",
   },
   {
     title: "ElvUI Profile",
@@ -728,6 +738,8 @@ function formatDate(value: string) {
 }
 
 function DownloadCard({ card }: { card: DownloadCard }) {
+  const screenshots = card.screenshotFolder ? addonScreenshots[card.screenshotFolder] : [];
+
   return (
     <article className="download-card">
       <div className="card-label">{card.label}</div>
@@ -737,7 +749,13 @@ function DownloadCard({ card }: { card: DownloadCard }) {
       </div>
 
       <h3>{card.title}</h3>
-      <p>{card.description}</p>
+      <div className="card-description">
+        {card.description.split("\n\n").map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
+      </div>
+
+      <ScreenshotGalleryButton addonName={card.title} screenshots={screenshots} />
 
       <a
         className="card-button"
