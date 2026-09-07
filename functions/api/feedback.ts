@@ -92,7 +92,8 @@ export async function onRequestPost({ request, env }: PagesFunctionContext) {
   try {
     const channelId = await createDiscordDmChannel(env.DISCORD_BOT_TOKEN, env.DISCORD_TARGET_USER_ID);
     await sendDiscordMessage(env.DISCORD_BOT_TOKEN, channelId, discordMessage);
-  } catch {
+  } catch (error) {
+    console.error("Discord feedback delivery failed:", error instanceof Error ? error.message : String(error));
     return jsonResponse({ error: "Unable to send your suggestion right now. Please try again later." }, 502);
   }
 
@@ -196,6 +197,8 @@ async function createDiscordDmChannel(botToken: string, userId: string) {
   });
 
   if (!response.ok) {
+    const responseBody = await response.text();
+    console.error("Discord DM channel creation failed:", response.status, response.statusText, responseBody);
     throw new Error("Discord DM channel creation failed.");
   }
 
@@ -216,6 +219,8 @@ async function sendDiscordMessage(botToken: string, channelId: string, content: 
   });
 
   if (!response.ok) {
+    const responseBody = await response.text();
+    console.error("Discord message delivery failed:", response.status, response.statusText, responseBody);
     throw new Error("Discord message delivery failed.");
   }
 }
