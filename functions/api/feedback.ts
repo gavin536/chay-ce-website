@@ -90,7 +90,7 @@ export async function onRequestPost({ request, env }: PagesFunctionContext) {
   ].join("\n");
 
   try {
-    await logDiscordDiagnostics(env.DISCORD_BOT_TOKEN);
+    await logDiscordDiagnostics(env.DISCORD_BOT_TOKEN, env.DISCORD_TARGET_USER_ID);
     const channelId = await createDiscordDmChannel(env.DISCORD_BOT_TOKEN, env.DISCORD_TARGET_USER_ID);
     await sendDiscordMessage(env.DISCORD_BOT_TOKEN, channelId, discordMessage);
   } catch (error) {
@@ -190,7 +190,7 @@ function isRateLimited(clientId: string) {
   return existing.count > maxRequestsPerWindow;
 }
 
-async function logDiscordDiagnostics(botToken: string) {
+async function logDiscordDiagnostics(botToken: string, targetUserId: string) {
   try {
     const authenticatedBotResponse = await fetch("https://discord.com/api/v10/users/@me", {
       headers: discordHeaders(botToken),
@@ -246,6 +246,47 @@ async function logDiscordDiagnostics(botToken: string) {
         "Discord bot guilds:",
         guilds.map((guild) => ({ id: guild.id, name: guild.name })),
       );
+
+      for (const guild of guilds) {
+        try {
+          const memberResponse = await fetch(
+            `https://discord.com/api/v10/guilds/${guild.id}/members/${targetUserId}`,
+            { headers: discordHeaders(botToken) },
+          );
+          const diagnostic = {
+            "guild id": guild.id,
+            "guild name": guild.name,
+            status: memberResponse.status,
+            statusText: memberResponse.statusText,
+          };
+
+          if (!memberResponse.ok) {
+            const responseBody = await memberResponse.text();
+            console.error("Discord target membership check:", diagnostic, responseBody);
+            continue;
+          }
+
+          const member = (await memberResponse.json()) as {
+            user?: { id?: unknown; username?: unknown };
+            pending?: unknown;
+            flags?: unknown;
+          };
+
+          console.error("Discord target membership check:", {
+            ...diagnostic,
+            "member.user.id": member.user?.id,
+            "member.user.username": member.user?.username,
+            "member.pending": member.pending,
+            "member.flags": member.flags,
+          });
+        } catch (error) {
+          console.error(
+            "Discord target membership check:",
+            { "guild id": guild.id, "guild name": guild.name },
+            error instanceof Error ? error.message : String(error),
+          );
+        }
+      }
     }
   } catch (error) {
     console.error("Discord bot guilds diagnostic failed:", error instanceof Error ? error.message : String(error));
