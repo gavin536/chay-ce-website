@@ -102,18 +102,6 @@ const addonCards: DownloadCard[] = [
   },
 ];
 
-const importCards: DownloadCard[] = [
-  {
-    title: "EX WindTools Import",
-    label: "IMPORT",
-    image: "/images/EXBoss.jpg",
-    description:
-      "EX WindTools import setup made to fit the CHAY_CE UI layout.",
-    href: "/downloads/ExwindTools.txt",
-    button: "Download Import",
-  },
-];
-
 export default function Home() {
   return (
     <main className="site-shell">
@@ -233,20 +221,6 @@ export default function Home() {
 
         <div className="download-grid">
           {addonCards.map((card) => (
-            <DownloadCard key={card.title} card={card} />
-          ))}
-        </div>
-      </section>
-
-      <section className="downloads-section imports-section">
-        <p className="section-kicker">Imports</p>
-        <h2>EX Imports.</h2>
-        <p className="section-intro">
-          Separate import file for EX WindTools.
-        </p>
-
-        <div className="download-grid import-grid">
-          {importCards.map((card) => (
             <DownloadCard key={card.title} card={card} />
           ))}
         </div>
