@@ -16,6 +16,116 @@ type DownloadCard = {
   external?: boolean;
 };
 
+type RaiderIoScoreSegment = {
+  score?: number;
+  color?: string;
+};
+
+type RaiderIoSeasonScore = {
+  season?: string;
+  scores?: {
+    all?: number;
+  };
+  segments?: {
+    all?: RaiderIoScoreSegment;
+  };
+};
+
+type RaiderIoRank = {
+  world?: number;
+  region?: number;
+  realm?: number;
+};
+
+type RaiderIoRun = {
+  keystone_run_id?: number;
+  dungeon?: string;
+  short_name?: string;
+  mythic_level?: number;
+  completed_at?: string;
+  clear_time_ms?: number;
+  par_time_ms?: number;
+  num_keystone_upgrades?: number;
+  url?: string;
+};
+
+type RaiderIoRaidProgress = {
+  summary?: string;
+  expansion_id?: number;
+  total_bosses?: number;
+  normal_bosses_killed?: number;
+  heroic_bosses_killed?: number;
+  mythic_bosses_killed?: number;
+};
+
+type RaiderIoCharacterProfile = {
+  name?: string;
+  realm?: string;
+  region?: string;
+  class?: string;
+  active_spec_name?: string;
+  faction?: string;
+  thumbnail_url?: string;
+  profile_url?: string;
+  gear?: {
+    item_level_equipped?: number;
+  };
+  raid_progression?: Record<string, RaiderIoRaidProgress>;
+  mythic_plus_scores_by_season?: RaiderIoSeasonScore[];
+  mythic_plus_ranks?: {
+    overall?: RaiderIoRank;
+    class?: RaiderIoRank;
+    dps?: RaiderIoRank;
+    class_dps?: RaiderIoRank;
+  };
+  mythic_plus_recent_runs?: RaiderIoRun[];
+};
+
+type CharacterProfileData = {
+  profile: RaiderIoCharacterProfile | null;
+  unavailable: boolean;
+};
+
+const characterProfileUrl = "https://raider.io/characters/us/malfurion/Chay";
+const armoryProfileUrl = "https://worldofwarcraft.blizzard.com/en-us/character/us/malfurion/chay";
+const raiderIoFields = [
+  "gear",
+  "raid_progression",
+  "mythic_plus_scores_by_season:current",
+  "mythic_plus_ranks",
+  "mythic_plus_recent_runs",
+  "mythic_plus_best_runs",
+].join(",");
+
+async function getCharacterProfile(): Promise<CharacterProfileData> {
+  const params = new URLSearchParams({
+    region: "us",
+    realm: "Malfurion",
+    name: "Chay",
+    fields: raiderIoFields,
+  });
+
+  try {
+    const response = await fetch(
+      `https://raider.io/api/v1/characters/profile?${params.toString()}`,
+      {
+        next: { revalidate: 900 },
+        signal: AbortSignal.timeout(8000),
+      },
+    );
+
+    if (!response.ok) {
+      return { profile: null, unavailable: true };
+    }
+
+    const profile = (await response.json()) as RaiderIoCharacterProfile;
+
+    return { profile, unavailable: false };
+  } catch {
+    return { profile: null, unavailable: true };
+  }
+}
+
 const addonCards: DownloadCard[] = [
   {
     title: "ChayBar",
@@ -102,7 +212,9 @@ const addonCards: DownloadCard[] = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const characterProfile = await getCharacterProfile();
+
   return (
     <main className="site-shell">
       <header className="site-header">
@@ -186,31 +298,7 @@ export default function Home() {
         </aside>
       </section>
 
-      <section className="quality-strip" aria-label="Site features">
-        <article>
-          <span>01</span>
-          <h3>Premium Quality</h3>
-          <p>UI systems built for clarity, speed, and clean presentation.</p>
-        </article>
-
-        <article>
-          <span>02</span>
-          <h3>Cinematic Design</h3>
-          <p>Dark red MMO styling with stream-ready visuals.</p>
-        </article>
-
-        <article>
-          <span>03</span>
-          <h3>Creator Focused</h3>
-          <p>Profiles, imports, tools, textures, and visuals built around content creation.</p>
-        </article>
-
-        <article>
-          <span>04</span>
-          <h3>Community Driven</h3>
-          <p>Connected through Twitch, Discord, World of Warcraft, and stream team growth.</p>
-        </article>
-      </section>
+      <CharacterProfileSection data={characterProfile} />
 
       <section id="downloads" className="downloads-section">
         <p className="section-kicker">Downloads</p>
@@ -343,6 +431,287 @@ export default function Home() {
       </footer>
     </main>
   );
+}
+
+function CharacterProfileSection({ data }: { data: CharacterProfileData }) {
+  const profile = data.profile;
+  const seasonScore = profile?.mythic_plus_scores_by_season?.[0];
+  const score = seasonScore?.scores?.all ?? seasonScore?.segments?.all?.score;
+  const scoreColor = seasonScore?.segments?.all?.color;
+  const rank = profile?.mythic_plus_ranks?.overall?.region;
+  const raidProgression = getCurrentRaidProgression(profile?.raid_progression);
+  const itemLevel = profile?.gear?.item_level_equipped;
+  const recentRuns = profile?.mythic_plus_recent_runs?.slice(0, 3) ?? [];
+  const recentKey = recentRuns[0];
+  const characterName = profile?.name ?? "Chay";
+  const realm = profile?.realm ?? "Malfurion";
+  const region = (profile?.region ?? "us").toUpperCase();
+  const characterClass = profile?.class;
+  const spec = profile?.active_spec_name;
+  const faction = profile?.faction;
+  const profileUrl = profile?.profile_url ?? characterProfileUrl;
+
+  return (
+    <section className="character-profile-section" aria-labelledby="character-profile-title">
+      <div className="character-profile-shell">
+        <div className="character-profile-heading">
+          <p className="section-kicker">Live World of Warcraft Data</p>
+          <h2 id="character-profile-title">CHAY // Character Profile</h2>
+        </div>
+
+        <div className="character-dashboard">
+          <div className="character-identity-panel">
+            <div className="scanline" aria-hidden="true" />
+            <div className="character-portrait-wrap">
+              {profile?.thumbnail_url ? (
+                <img src={profile.thumbnail_url} alt={`${characterName} character portrait`} />
+              ) : (
+                <div className="portrait-fallback" aria-label="Character portrait unavailable">
+                  CHAY
+                </div>
+              )}
+            </div>
+
+            <div className="character-id-copy">
+              <p className="character-callout">{data.unavailable ? "Data Temporarily Unavailable" : "Raider.IO Dossier"}</p>
+              <h3>{characterName}</h3>
+              <p className="character-realm">{realm} • {region}</p>
+
+              <div className="character-tags" aria-label="Character details">
+                {characterClass ? <span>{characterClass}</span> : null}
+                {spec ? <span>{spec}</span> : null}
+                {faction ? <span>{formatTitle(faction)}</span> : null}
+                {typeof itemLevel === "number" ? <span>{itemLevel} Equipped</span> : null}
+              </div>
+            </div>
+          </div>
+
+          <div className="character-stats-grid" aria-label="Character stats">
+            <ProfileStat
+              label="Mythic+ Score"
+              value={formatScore(score)}
+              detail="Current overall score"
+              featured
+              valueColor={scoreColor}
+            />
+            <ProfileStat
+              label="Mythic+ Rank"
+              value={formatRank(rank)}
+              detail={rank ? "US overall rank" : "Ranking unavailable"}
+            />
+            <ProfileStat
+              label="Raid Progression"
+              value={raidProgression?.summary ?? "Unavailable"}
+              detail={raidProgression?.name ?? "No raid progression returned"}
+            />
+            <ProfileStat
+              label="Item Level"
+              value={typeof itemLevel === "number" ? itemLevel.toString() : "Unavailable"}
+              detail="Equipped gear"
+            />
+          </div>
+
+          <div className="recent-key-panel">
+            <p className="panel-kicker">Recent Key</p>
+            {recentKey ? (
+              <div className="recent-key-content">
+                <div>
+                  <span className="key-level">+{recentKey.mythic_level}</span>
+                  <h3>{recentKey.dungeon ?? recentKey.short_name ?? "Unknown Dungeon"}</h3>
+                </div>
+                <dl>
+                  <div>
+                    <dt>Status</dt>
+                    <dd>{formatRunStatus(recentKey)}</dd>
+                  </div>
+                  <div>
+                    <dt>Upgrades</dt>
+                    <dd>{formatUpgrades(recentKey.num_keystone_upgrades)}</dd>
+                  </div>
+                  <div>
+                    <dt>Completion</dt>
+                    <dd>{formatCompletion(recentKey)}</dd>
+                  </div>
+                </dl>
+              </div>
+            ) : (
+              <p className="empty-profile-state">No recent Mythic+ runs returned.</p>
+            )}
+          </div>
+
+          <div className="recent-activity-panel">
+            <p className="panel-kicker">Recent Activity</p>
+            <div className="activity-list">
+              {recentRuns.length > 0 ? (
+                recentRuns.map((run) => (
+                  <RecentRunRow key={`${run.keystone_run_id ?? run.completed_at ?? run.dungeon}`} run={run} />
+                ))
+              ) : (
+                <p className="empty-profile-state">No recent activity returned.</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="character-profile-actions">
+          <a
+            className="primary-button"
+            href={profileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Raider.IO Profile
+          </a>
+          <a
+            className="secondary-button"
+            href={armoryProfileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Armory
+          </a>
+          <a
+            className="data-attribution"
+            href={profileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Data provided by Raider.IO
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProfileStat({
+  label,
+  value,
+  detail,
+  featured = false,
+  valueColor,
+}: {
+  label: string;
+  value: string;
+  detail: string;
+  featured?: boolean;
+  valueColor?: string;
+}) {
+  return (
+    <article className={featured ? "profile-stat profile-stat-featured" : "profile-stat"}>
+      <span>{label}</span>
+      <strong style={valueColor ? { color: valueColor } : undefined}>{value}</strong>
+      <p>{detail}</p>
+    </article>
+  );
+}
+
+function RecentRunRow({ run }: { run: RaiderIoRun }) {
+  return (
+    <div className="activity-row">
+      <span className="activity-level">+{run.mythic_level ?? "-"}</span>
+      <div>
+        <strong>{run.dungeon ?? run.short_name ?? "Unknown Dungeon"}</strong>
+        <p>{formatCompletion(run)}</p>
+      </div>
+      <span className="activity-status">{formatRunStatus(run)}</span>
+    </div>
+  );
+}
+
+function getCurrentRaidProgression(raidProgression?: Record<string, RaiderIoRaidProgress>) {
+  if (!raidProgression) {
+    return null;
+  }
+
+  const raids = Object.entries(raidProgression)
+    .map(([slug, progression]) => ({
+      name: formatSlug(slug),
+      ...progression,
+    }))
+    .filter((progression) => progression.summary);
+
+  if (raids.length === 0) {
+    return null;
+  }
+
+  return raids.sort((first, second) => {
+    const expansionDifference = (second.expansion_id ?? 0) - (first.expansion_id ?? 0);
+
+    if (expansionDifference !== 0) {
+      return expansionDifference;
+    }
+
+    const secondProgress = (second.mythic_bosses_killed ?? 0) * 100
+      + (second.heroic_bosses_killed ?? 0) * 10
+      + (second.normal_bosses_killed ?? 0);
+    const firstProgress = (first.mythic_bosses_killed ?? 0) * 100
+      + (first.heroic_bosses_killed ?? 0) * 10
+      + (first.normal_bosses_killed ?? 0);
+
+    return secondProgress - firstProgress;
+  })[0];
+}
+
+function formatScore(score?: number) {
+  return typeof score === "number" ? Math.round(score).toLocaleString("en-US") : "Unavailable";
+}
+
+function formatRank(rank?: number) {
+  return typeof rank === "number" && rank > 0 ? `US #${rank.toLocaleString("en-US")}` : "Unavailable";
+}
+
+function formatTitle(value: string) {
+  return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+}
+
+function formatSlug(slug: string) {
+  return slug
+    .split("-")
+    .map((part) => (part.length > 0 ? formatTitle(part) : part))
+    .join(" ");
+}
+
+function formatRunStatus(run: RaiderIoRun) {
+  if (typeof run.clear_time_ms !== "number" || typeof run.par_time_ms !== "number") {
+    return "Completed";
+  }
+
+  return run.clear_time_ms <= run.par_time_ms ? "Timed" : "Completed";
+}
+
+function formatUpgrades(upgrades?: number) {
+  if (typeof upgrades !== "number") {
+    return "Unavailable";
+  }
+
+  return upgrades > 0 ? `+${upgrades}` : "No upgrade";
+}
+
+function formatCompletion(run: RaiderIoRun) {
+  if (typeof run.clear_time_ms !== "number") {
+    return run.completed_at ? formatDate(run.completed_at) : "Completion unavailable";
+  }
+
+  const clearTime = formatDuration(run.clear_time_ms);
+
+  if (typeof run.par_time_ms !== "number") {
+    return clearTime;
+  }
+
+  return `${clearTime} / ${formatDuration(run.par_time_ms)}`;
+}
+
+function formatDuration(milliseconds: number) {
+  const totalSeconds = Math.round(milliseconds / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+}
+
+function formatDate(value: string) {
+  return value.slice(0, 10);
 }
 
 function DownloadCard({ card }: { card: DownloadCard }) {
