@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { CommunityFeedbackForm } from "./components/CommunityFeedbackForm";
+import { MerchPreviewButton } from "./components/MerchPreviewButton";
 
 export const metadata: Metadata = {
   title: "CHAY_CE | WoW UI Profiles, Addons, Stream Tools",
@@ -419,10 +421,21 @@ export default async function Home() {
           >
             Patreon
           </a>
-          <span className="secondary-button" aria-disabled="true">
-            Merch Coming Soon
-          </span>
+          <MerchPreviewButton />
         </div>
+      </section>
+
+      <section className="support-section feedback-section" aria-labelledby="feedback-title">
+        <div>
+          <p className="section-kicker">Community Feedback</p>
+          <h2 id="feedback-title">Share Your Ideas.</h2>
+          <p>
+            Have an addon idea, website suggestion, bug report, or something you&apos;d like
+            to see added to the CHAY_CE ecosystem? Send it here.
+          </p>
+        </div>
+
+        <CommunityFeedbackForm />
       </section>
 
       <footer className="site-footer">

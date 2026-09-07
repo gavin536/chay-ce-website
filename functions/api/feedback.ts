@@ -1,0 +1,229 @@
+type FeedbackEnv = {
+  DISCORD_BOT_TOKEN?: string;
+  DISCORD_FEEDBACK_USER_ID?: string;
+};
+
+type PagesFunctionContext = {
+  request: Request;
+  env: FeedbackEnv;
+};
+
+type FeedbackType =
+  | "Addon Idea"
+  | "Website Suggestion"
+  | "Bug Report"
+  | "Stream / Community"
+  | "Other";
+
+type RateLimitEntry = {
+  count: number;
+  resetAt: number;
+};
+
+const allowedFeedbackTypes = new Set<FeedbackType>([
+  "Addon Idea",
+  "Website Suggestion",
+  "Bug Report",
+  "Stream / Community",
+  "Other",
+]);
+
+const rateLimits = new Map<string, RateLimitEntry>();
+const rateLimitWindowMs = 15 * 60 * 1000;
+const maxRequestsPerWindow = 4;
+
+export async function onRequestOptions() {
+  return new Response(null, {
+    status: 204,
+    headers: corsHeaders(),
+  });
+}
+
+export async function onRequestPost({ request, env }: PagesFunctionContext) {
+  const clientId = getClientId(request);
+
+  if (isRateLimited(clientId)) {
+    return jsonResponse({ error: "Too many submissions. Please try again later." }, 429);
+  }
+
+  if (!env.DISCORD_BOT_TOKEN || !env.DISCORD_FEEDBACK_USER_ID) {
+    return jsonResponse({ error: "Feedback delivery is not configured yet." }, 500);
+  }
+
+  const contentLength = Number(request.headers.get("content-length") ?? "0");
+
+  if (contentLength > 6_000) {
+    return jsonResponse({ error: "Submission is too large." }, 413);
+  }
+
+  let body: unknown;
+
+  try {
+    body = await request.json();
+  } catch {
+    return jsonResponse({ error: "Invalid feedback payload." }, 400);
+  }
+
+  const feedback = validateFeedback(body);
+
+  if (!feedback.ok) {
+    return jsonResponse({ error: feedback.error }, 400);
+  }
+
+  const discordMessage = [
+    "**New CHAY_CE Website Feedback**",
+    "",
+    `**From:** ${feedback.value.name}`,
+    `**Discord:** ${feedback.value.discord || "Not provided"}`,
+    `**Type:** ${feedback.value.type}`,
+    "",
+    "**Message:**",
+    feedback.value.message,
+  ].join("\n");
+
+  try {
+    const channelId = await createDiscordDmChannel(env.DISCORD_BOT_TOKEN, env.DISCORD_FEEDBACK_USER_ID);
+    await sendDiscordMessage(env.DISCORD_BOT_TOKEN, channelId, discordMessage);
+  } catch {
+    return jsonResponse({ error: "Could not deliver feedback right now." }, 502);
+  }
+
+  return jsonResponse({ ok: true }, 200);
+}
+
+function validateFeedback(body: unknown):
+  | { ok: true; value: { name: string; discord: string; type: FeedbackType; message: string } }
+  | { ok: false; error: string } {
+  if (!isRecord(body)) {
+    return { ok: false, error: "Invalid feedback payload." };
+  }
+
+  const name = sanitizeField(body.name, 80);
+  const discord = sanitizeField(body.discord, 80);
+  const type = sanitizeField(body.type, 40);
+  const message = sanitizeField(body.message, 1200);
+
+  if (!name) {
+    return { ok: false, error: "Name / Twitch Handle is required." };
+  }
+
+  if (!allowedFeedbackTypes.has(type as FeedbackType)) {
+    return { ok: false, error: "Please choose a valid feedback type." };
+  }
+
+  if (!message || message.length < 5) {
+    return { ok: false, error: "Suggestion / Comment is required." };
+  }
+
+  return {
+    ok: true,
+    value: {
+      name,
+      discord,
+      type: type as FeedbackType,
+      message,
+    },
+  };
+}
+
+function sanitizeField(value: unknown, maxLength: number) {
+  if (typeof value !== "string") {
+    return "";
+  }
+
+  return value
+    .replace(/[\u0000-\u001f\u007f]/g, " ")
+    .replace(/@/g, "@\u200b")
+    .replace(/https?:\/\/\S+/gi, "[link removed]")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, maxLength);
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function getClientId(request: Request) {
+  return request.headers.get("cf-connecting-ip")
+    ?? request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+    ?? "unknown";
+}
+
+function isRateLimited(clientId: string) {
+  const now = Date.now();
+  const existing = rateLimits.get(clientId);
+
+  for (const [key, entry] of rateLimits) {
+    if (entry.resetAt <= now) {
+      rateLimits.delete(key);
+    }
+  }
+
+  if (!existing || existing.resetAt <= now) {
+    rateLimits.set(clientId, { count: 1, resetAt: now + rateLimitWindowMs });
+    return false;
+  }
+
+  existing.count += 1;
+  rateLimits.set(clientId, existing);
+
+  return existing.count > maxRequestsPerWindow;
+}
+
+async function createDiscordDmChannel(botToken: string, userId: string) {
+  const response = await fetch("https://discord.com/api/v10/users/@me/channels", {
+    method: "POST",
+    headers: discordHeaders(botToken),
+    body: JSON.stringify({ recipient_id: userId }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Discord DM channel creation failed.");
+  }
+
+  const body = (await response.json()) as { id?: unknown };
+
+  if (typeof body.id !== "string") {
+    throw new Error("Discord DM channel response was invalid.");
+  }
+
+  return body.id;
+}
+
+async function sendDiscordMessage(botToken: string, channelId: string, content: string) {
+  const response = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
+    method: "POST",
+    headers: discordHeaders(botToken),
+    body: JSON.stringify({ content, allowed_mentions: { parse: [] } }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Discord message delivery failed.");
+  }
+}
+
+function discordHeaders(botToken: string) {
+  return {
+    Authorization: `Bot ${botToken}`,
+    "Content-Type": "application/json",
+  };
+}
+
+function jsonResponse(body: Record<string, unknown>, status: number) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      ...corsHeaders(),
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+function corsHeaders() {
+  return {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+}
