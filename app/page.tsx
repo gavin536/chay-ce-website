@@ -188,11 +188,11 @@ const addonCards: DownloadCard[] = [
     screenshotFolder: "chaylfgregions",
   },
   {
-    title: "ChayDemonicCore",
+    title: "ChayProcs",
     label: "ADDON",
     image: "/images/chay-logo.png",
     description:
-      "ChayDemonicCore is a focused Demonology Warlock tracker designed specifically around Demonic Core proc management.\n\nThe addon displays available Demonic Core procs in a clear and highly visible format so players can immediately see when procs are available and how many stacks they currently have.\n\nThe display can be customized for size, position, visibility, and alert behavior. Optional visual and sound alerts help make important proc states easier to notice during combat.\n\nBuilt-in test controls allow the tracker to be previewed and positioned without waiting for a proc to occur naturally.\n\nThe addon is intentionally focused on Demonic Core rather than acting as a complete rotational assistant, keeping the display lightweight and uncluttered.",
+      "ChayProcs is a customizable World of Warcraft proc tracker for keeping important ability procs and stacks visible during combat.\n\nOriginally built for Demonology Warlocks, it supports Demonic Core tracking and additional proc displays such as Voidfall where configured.\n\nYou can customize the position, size, visibility, icons, and visual alert behavior of supported trackers. Optional sounds help make important proc states easier to notice.\n\nBuilt-in test controls let you preview and position displays without waiting for a proc to occur naturally.\n\nChayProcs keeps proc information visible without replacing your normal action bars or rotation.",
     href: "https://www.curseforge.com/wow/addons/chaydemoniccore",
     button: "View on CurseForge",
     external: true,
@@ -214,8 +214,8 @@ const addonCards: DownloadCard[] = [
     image: "/images/elvui-card.png",
     description:
       "My personal ElvUI profile for a clean, readable, gameplay-focused interface.",
-    href: "/downloads/ElvuiSave.zip",
-    button: "Download Profile",
+    href: "#feedback-title",
+    button: "Request via Discord",
   },
   {
     title: "Details! Profile",
@@ -223,8 +223,8 @@ const addonCards: DownloadCard[] = [
     image: "/images/details-card.png",
     description:
       "My personal Details! profile for clean damage tracking and readable meters.",
-    href: "/downloads/details-profile.txt",
-    button: "Download Profile",
+    href: "#feedback-title",
+    button: "Request via Discord",
   },
 ];
 
@@ -320,7 +320,7 @@ export default async function Home() {
         <p className="section-kicker">Downloads</p>
         <h2>Pick Your Download.</h2>
         <p className="section-intro">
-          View published addons on CurseForge. For addons not listed there, send a request through the community feedback form below.
+          View published addons on CurseForge. For the media library and UI profiles, use the request form below instead of downloading an outdated file.
         </p>
 
         <div className="download-grid">
@@ -445,9 +445,9 @@ export default async function Home() {
           <p className="section-kicker">Community Feedback</p>
           <h2 id="feedback-title">Share Your Ideas.</h2>
           <p>
-            Have an addon request, website suggestion, bug report, or something you&apos;d
+            Have an addon or UI profile request, website suggestion, bug report, or something you&apos;d
             like to see added to the CHAY_CE ecosystem? Send it here. For an addon
-            request, include the addon name in your message.
+            request, include the addon or profile name in your message.
           </p>
         </div>
 
